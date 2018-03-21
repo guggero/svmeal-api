@@ -20,7 +20,7 @@ install: ./mvnw clean compile -B -V
 script: ./mvnw clean package -B -V
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+  - if [ "$TRAVIS_BRANCH" == "develop" ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
       docker build -t "guggero/svmeal-api:latest" docker/;
       docker build -t "guggero/svmeal-api:$TRAVIS_BUILD_NUMBER" docker/;
