@@ -1,0 +1,29 @@
+sudo: required
+language: java
+
+branches:
+  only:
+  - develop
+
+dist: trusty
+
+services:
+ - docker
+
+cache:
+  directories:
+    - $HOME/.m2
+
+before_install:
+  - export TZ=Europe/Zurich
+install: ./mvnw clean compile -B -V
+script: ./mvnw clean package -B -V
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      docker build -t "guggero/svmeal-api:latest" docker/;
+      docker build -t "guggero/svmeal-api:$TRAVIS_BUILD_NUMBER" docker/;
+      docker push "guggero/svmeal-api:latest";
+      docker push "guggero/svmeal-api:$TRAVIS_BUILD_NUMBER";
+    fi
