@@ -17,7 +17,7 @@ cache:
 before_install:
   - export TZ=Europe/Zurich
 install: ./mvnw clean compile -B -V
-script: ./mvnw clean package -B -V && docker build -t $DOCKER_REPO/svmeal-api -t $DOCKER_REPO/svmeal-api:$TRAVIS_BUILD_NUMBER .
+script: ./mvnw clean package -B -V
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
