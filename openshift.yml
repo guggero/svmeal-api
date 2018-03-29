@@ -1,0 +1,181 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "svmeal-api-application-template",
+    "creationTimestamp": null,
+    "annotations": {
+      "description": "Athleten Datenmanagement Template with Postgresql",
+      "iconClass": "icon-java",
+      "tags": "instant-app,java,svmeal-api,postgres"
+    }
+  },
+  "objects": [
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "svmeal-api",
+        "creationTimestamp": null,
+        "labels": {
+          "application": "svmeal-api",
+          "template": "svmeal-api-application-template"
+        },
+        "annotations": {
+          "description": "The web server's http port."
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "svmeal-api-http",
+            "protocol": "TCP",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "deploymentConfig": "svmeal-api"
+        },
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "svmeal-api-https-route",
+        "creationTimestamp": null,
+        "labels": {
+          "application": "svmeal-api",
+          "template": "svmeal-api-application-template"
+        },
+        "annotations": {
+          "description": "Route for application's http service.",
+          "openshift.io/host.generated": "true"
+        }
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "svmeal-api"
+        },
+        "tls": {
+          "termination": "edge",
+          "certificate": null,
+          "key": null,
+          "caCertificate": null,
+          "insecureEdgeTerminationPolicy": "Redirect"
+        }
+      },
+      "status": {}
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "svmeal-api",
+        "creationTimestamp": null,
+        "labels": {
+          "application": "svmeal-api",
+          "template": "svmeal-api-application-template"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "deploymentConfig": "svmeal-api"
+        },
+        "template": {
+          "metadata": {
+            "name": "svmeal-api",
+            "creationTimestamp": null,
+            "labels": {
+              "application": "svmeal-api",
+              "deploymentConfig": "svmeal-api"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "svmeal-api",
+                "image": "guggero/svmeal-api:latest",
+                "ports": [
+                  {
+                    "name": "http",
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  },
+                  {
+                    "containerPort": 8080,
+                    "protocol": "TCP"
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "500m",
+                    "memory": "1Gi"
+                  },
+                  "limits": {
+                    "cpu": "1",
+                    "memory": "2Gi"
+                  }
+                },
+                "livenessProbe": {
+                  "httpGet": {
+                    "path": "/api/restaurant/",
+                    "port": 8080,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 60,
+                  "timeoutSeconds": 5,
+                  "periodSeconds": 20,
+                  "successThreshold": 1,
+                  "failureThreshold": 5
+                },
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/api/restaurant/",
+                    "port": 8080,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 60,
+                  "timeoutSeconds": 5,
+                  "periodSeconds": 20,
+                  "successThreshold": 1,
+                  "failureThreshold": 5
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "imagePullPolicy": "Always"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "DOCKER_IMAGE_TAG",
+      "description": "The docker image tag to use to pull the image",
+      "value": "guggero/svmeal-api:latest"
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "description": "svmeal-api"
+    }
+  ]
+}
