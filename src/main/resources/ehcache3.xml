@@ -1,23 +1,23 @@
-<eh:config
+<config
+        xmlns='http://www.ehcache.org/v3'
         xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-        xmlns:eh='http://www.ehcache.org/v3'
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
-    <eh:cache alias="restaurants">
-        <eh:expiry>
-            <eh:ttl unit="hours">2</eh:ttl>
-        </eh:expiry>
-        <eh:heap>1</eh:heap>
-    </eh:cache>
-    <eh:cache alias="restaurantDtos">
-        <eh:expiry>
-            <eh:ttl unit="minutes">15</eh:ttl>
-        </eh:expiry>
-        <eh:heap>1</eh:heap>
-    </eh:cache>
-    <eh:cache alias="mealPlan">
-        <eh:expiry>
-            <eh:ttl unit="minutes">15</eh:ttl>
-        </eh:expiry>
-        <eh:heap>50</eh:heap>
-    </eh:cache>
-</eh:config>
+    <cache alias="restaurants">
+        <expiry>
+            <ttl unit="hours">2</ttl>
+        </expiry>
+        <heap>1</heap>
+    </cache>
+    <cache alias="restaurantDtos">
+        <expiry>
+            <ttl unit="minutes">15</ttl>
+        </expiry>
+        <heap>1</heap>
+    </cache>
+    <cache alias="mealPlan">
+        <expiry>
+            <ttl unit="minutes">15</ttl>
+        </expiry>
+        <heap>50</heap>
+    </cache>
+</config>

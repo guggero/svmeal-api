@@ -17,13 +17,13 @@ cache:
 before_install:
   - export TZ=Europe/Zurich
 install: ./mvnw clean compile -B -V
-script: ./mvnw clean package -B -V && docker build -t guggero/svmeal-api -t guggero/svmeal-api:$TRAVIS_BUILD_NUMBER .
+script: ./mvnw clean package -B -V && docker build -t $DOCKER_REPO/svmeal-api -t $DOCKER_REPO/svmeal-api:$TRAVIS_BUILD_NUMBER .
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      docker build -t "guggero/svmeal-api:latest" docker/;
-      docker build -t "guggero/svmeal-api:$TRAVIS_BUILD_NUMBER" docker/;
-      docker push "guggero/svmeal-api:latest";
-      docker push "guggero/svmeal-api:$TRAVIS_BUILD_NUMBER";
+      docker build -t "$DOCKER_REPO/svmeal-api:latest" docker/;
+      docker build -t "$DOCKER_REPO/svmeal-api:$TRAVIS_BUILD_NUMBER" docker/;
+      docker push "$DOCKER_REPO/svmeal-api:latest";
+      docker push "$DOCKER_REPO/svmeal-api:$TRAVIS_BUILD_NUMBER";
     fi
