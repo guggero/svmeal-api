@@ -31,3 +31,4 @@ To deploy to an OpenShift instance, log in first, create an empty project and th
 ```bash
 oc process -f openshift.yml -p APPLICATION_DOMAIN=svmeal-api-prod.mydomain.example | oc create -f -
 ```
+
