@@ -8,4 +8,4 @@ RUN apk add --no-cache tzdata \
 
 ADD target/svmeal-api-*.jar /springApp.jar
 
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /springApp.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/springApp.jar"]
