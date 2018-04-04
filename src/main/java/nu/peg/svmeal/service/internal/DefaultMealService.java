@@ -54,7 +54,7 @@ public class DefaultMealService implements MealService {
      * @return The scraped {@link MealPlanDto}
      */
     @Override
-    @Cacheable(MEAL_PLAN)
+    @Cacheable(value = MEAL_PLAN, key = "#dayOffset + '-' + #restaurant.name")
     public MealPlanResponse getMealPlan(int dayOffset, SvRestaurant restaurant) {
         LOGGER.debug("Scraping meal plan for {}@{}", dayOffset, restaurant);
 

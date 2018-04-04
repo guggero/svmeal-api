@@ -8,6 +8,12 @@ The SV meal API scrapes the website of the SV Group restaurant chain to find the
 ./mvnw package
 ```
 
+## Run locally
+
+```bash
+java -jar target/svmeal-api-*.jar
+```
+
 ## Run as a Docker container
 
 First, build the container:

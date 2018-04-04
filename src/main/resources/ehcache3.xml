@@ -1,5 +1,4 @@
-<config
-        xmlns='http://www.ehcache.org/v3'
+<config xmlns='http://www.ehcache.org/v3'
         xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
     <cache alias="restaurants">
@@ -18,6 +17,6 @@
         <expiry>
             <ttl unit="minutes">15</ttl>
         </expiry>
-        <heap>50</heap>
+        <heap>100</heap>
     </cache>
 </config>
