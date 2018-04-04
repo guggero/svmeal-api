@@ -22,8 +22,8 @@ script: ./mvnw clean package -B -V
 after_success:
   - if [ "$TRAVIS_BRANCH" == "develop" ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      docker build -t "$DOCKER_REPO/svmeal-api:latest" docker/;
-      docker build -t "$DOCKER_REPO/svmeal-api:$TRAVIS_BUILD_NUMBER" docker/;
+      docker build -t "$DOCKER_REPO/svmeal-api:latest" .;
+      docker build -t "$DOCKER_REPO/svmeal-api:$TRAVIS_BUILD_NUMBER" .;
       docker push "$DOCKER_REPO/svmeal-api:latest";
       docker push "$DOCKER_REPO/svmeal-api:$TRAVIS_BUILD_NUMBER";
     fi
