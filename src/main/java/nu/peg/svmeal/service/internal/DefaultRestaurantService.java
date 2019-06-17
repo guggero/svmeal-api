@@ -66,6 +66,7 @@ public class DefaultRestaurantService implements RestaurantService {
 
         return Arrays.stream(searchResponseCallback.list)
                 .filter(rest -> !rest.getLink().contains("sv-group") && !rest.getLink().isEmpty())
+                .peek(rest -> rest.setLink(rest.getLink().replaceAll("http://", "https://")))
                 .collect(Collectors.toList());
     }
 
